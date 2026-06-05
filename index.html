@@ -1,0 +1,1468 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tunnel Bit: 8 Nanometers</title>
+    <style>
+:root {
+  color-scheme: dark;
+  --bg: #07080d;
+  --panel: #10141c;
+  --panel-2: #151b24;
+  --line: rgba(180, 226, 255, 0.18);
+  --text: #edf7ff;
+  --muted: #9bb1c4;
+  --cyan: #54dcff;
+  --green: #7dffba;
+  --amber: #ffd166;
+  --red: #ff667d;
+  --violet: #b892ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(84, 220, 255, 0.14), transparent 32rem),
+    radial-gradient(circle at 88% 18%, rgba(125, 255, 186, 0.08), transparent 28rem),
+    linear-gradient(135deg, #07080d 0%, #11131a 58%, #090b10 100%);
+}
+
+.script-warning {
+  width: min(1180px, calc(100vw - 32px));
+  margin: 12px auto 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 209, 102, 0.42);
+  border-radius: 8px;
+  color: #fff4cc;
+  background: rgba(63, 45, 8, 0.88);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.game-shell {
+  width: min(1180px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 12px 0 12px;
+}
+
+.topbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 10px;
+}
+
+.story-panel {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 11px 14px;
+  border: 1px solid rgba(125, 255, 186, 0.22);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(125, 255, 186, 0.12), transparent),
+    rgba(12, 18, 26, 0.88);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.24);
+}
+
+.story-speaker {
+  display: grid;
+  min-height: 42px;
+  place-items: center;
+  border: 1px solid rgba(125, 255, 186, 0.28);
+  border-radius: 8px;
+  color: var(--green);
+  background: rgba(3, 22, 17, 0.58);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.story-panel p {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.96rem;
+  line-height: 1.35;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--green);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: clamp(1.65rem, 3.2vw, 3.5rem);
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin-bottom: 6px;
+  font-size: 1.12rem;
+  letter-spacing: 0;
+}
+
+.level-pill {
+  min-width: 104px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(12, 18, 26, 0.84);
+  color: var(--cyan);
+  font-weight: 800;
+  text-align: center;
+  box-shadow: 0 0 24px rgba(84, 220, 255, 0.14);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 350px) minmax(0, 1fr);
+  gap: 12px;
+  align-items: stretch;
+}
+
+.mission-panel {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(16, 20, 28, 0.92);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.3);
+}
+
+#levelBrief {
+  color: var(--muted);
+  margin-bottom: 0;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.objective-box {
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid rgba(180, 226, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.objective-box span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--amber);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.objective-box p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.readouts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin: 8px 0;
+}
+
+.readout {
+  min-height: 48px;
+  padding: 8px 10px;
+  border: 1px solid rgba(180, 226, 255, 0.14);
+  border-radius: 8px;
+  background: var(--panel-2);
+}
+
+.readout span {
+  display: inline;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.readout strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--text);
+  font-size: 1.22rem;
+  line-height: 1;
+}
+
+.readout strong span,
+.readout .inline-value span {
+  color: var(--text);
+  font-size: inherit;
+}
+
+.meter-stack {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.meter-stack label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+meter {
+  width: 100%;
+  height: 12px;
+}
+
+.controls {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+}
+
+.slider-label strong {
+  color: var(--cyan);
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--cyan);
+}
+
+.voltage-band {
+  min-height: 44px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: rgba(84, 220, 255, 0.1);
+  color: var(--cyan);
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+button {
+  min-height: 38px;
+  border: 0;
+  border-radius: 8px;
+  color: #041015;
+  background: var(--cyan);
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(84, 220, 255, 0.2);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+  transform: none;
+  box-shadow: none;
+}
+
+#nextButton {
+  background: var(--green);
+}
+
+#resetButton {
+  border: 1px solid rgba(180, 226, 255, 0.2);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.cell-stage {
+  position: relative;
+  min-height: 430px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(84, 220, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(rgba(84, 220, 255, 0.05) 1px, transparent 1px),
+    #090d13;
+  background-size: 42px 42px;
+  box-shadow: inset 0 0 68px rgba(84, 220, 255, 0.08);
+}
+
+.chip-grid {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0 22%, rgba(125, 255, 186, 0.08) 22% 23%, transparent 23% 68%, rgba(255, 209, 102, 0.08) 68% 69%, transparent 69%),
+    linear-gradient(0deg, transparent 0 34%, rgba(84, 220, 255, 0.08) 34% 35%, transparent 35% 72%, rgba(184, 146, 255, 0.08) 72% 73%, transparent 73%);
+}
+
+.field-lines {
+  position: absolute;
+  inset: 12% 32% 12% 27%;
+  opacity: 0.45;
+  background: repeating-linear-gradient(90deg, transparent 0 18px, rgba(84, 220, 255, 0.32) 19px 20px);
+  filter: drop-shadow(0 0 12px rgba(84, 220, 255, 0.45));
+  transform: skewX(-8deg);
+  transition: opacity 220ms ease;
+}
+
+.electron-zone,
+.trap-zone,
+.barrier,
+.bit-display,
+.result-bubble,
+.success-overlay,
+.game-complete-overlay {
+  position: absolute;
+  z-index: 2;
+}
+
+.electron-zone {
+  left: 8%;
+  top: 40%;
+  width: 190px;
+  text-align: center;
+}
+
+.electron-zone p,
+.trap-zone p,
+.barrier p {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.electron-cloud {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 5%, rgba(84, 220, 255, 0.9) 6% 18%, rgba(84, 220, 255, 0.22) 35%, transparent 68%);
+  box-shadow: 0 0 34px rgba(84, 220, 255, 0.78), 0 0 80px rgba(84, 220, 255, 0.25);
+}
+
+.electron-cloud span {
+  position: absolute;
+  inset: -18px;
+  border: 1px solid rgba(84, 220, 255, 0.38);
+  border-radius: 50%;
+  animation: breathe 2.7s ease-in-out infinite;
+}
+
+.electron-cloud.idle {
+  animation: float 3s ease-in-out infinite;
+}
+
+.electron-cloud.tunnel {
+  animation: tunnel 1.25s ease-in-out forwards;
+}
+
+.electron-cloud.fail {
+  animation: fail 0.9s ease-in-out forwards;
+}
+
+.electron-cloud.leak {
+  animation: leak 1.05s ease-in-out forwards;
+}
+
+.barrier {
+  left: 45%;
+  top: 8%;
+  width: 96px;
+  height: 63%;
+  text-align: center;
+}
+
+.barrier-core {
+  width: 42px;
+  height: 100%;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 209, 102, 0.55);
+  background: linear-gradient(90deg, rgba(255, 209, 102, 0.12), rgba(255, 209, 102, 0.42), rgba(255, 209, 102, 0.12));
+  box-shadow: 0 0 34px rgba(255, 209, 102, 0.32);
+}
+
+.barrier p {
+  position: absolute;
+  left: 50%;
+  bottom: -58px;
+  width: 150px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 209, 102, 0.16);
+  border-radius: 8px;
+  background: rgba(9, 13, 19, 0.72);
+  color: var(--text);
+  font-size: 0.82rem;
+  line-height: 1.2;
+  transform: translateX(-50%);
+}
+
+.barrier strong {
+  color: var(--amber);
+}
+
+.trap-zone {
+  right: 8%;
+  top: 36%;
+  width: 220px;
+  text-align: center;
+}
+
+.trap-well {
+  position: relative;
+  width: 190px;
+  height: 108px;
+  margin: 0 auto;
+  border-bottom: 3px solid rgba(125, 255, 186, 0.68);
+  border-radius: 0 0 96px 96px;
+  background: radial-gradient(ellipse at center bottom, rgba(125, 255, 186, 0.28), rgba(125, 255, 186, 0.05) 58%, transparent 68%);
+  box-shadow: 0 24px 44px rgba(125, 255, 186, 0.11);
+}
+
+.stored-orbits {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  display: flex;
+  gap: 8px;
+  transform: translateX(-50%);
+}
+
+.stored-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 18px rgba(125, 255, 186, 0.85);
+}
+
+.bit-display {
+  right: 18px;
+  top: 18px;
+  min-width: 94px;
+  padding: 10px 12px;
+  border: 1px solid rgba(125, 255, 186, 0.25);
+  border-radius: 8px;
+  color: var(--green);
+  background: rgba(3, 22, 17, 0.72);
+  font-weight: 900;
+  text-align: center;
+}
+
+.result-bubble {
+  left: 7%;
+  top: 25%;
+  width: min(310px, 38%);
+  padding: 13px 15px;
+  border: 1px solid rgba(84, 220, 255, 0.28);
+  border-radius: 8px;
+  background: rgba(9, 13, 19, 0.9);
+  color: var(--text);
+  box-shadow: 0 0 24px rgba(84, 220, 255, 0.14);
+  animation: bubbleIn 220ms ease-out;
+}
+
+.result-bubble::after {
+  content: "";
+  position: absolute;
+  left: 42px;
+  bottom: -10px;
+  width: 18px;
+  height: 18px;
+  border-right: 1px solid rgba(84, 220, 255, 0.28);
+  border-bottom: 1px solid rgba(84, 220, 255, 0.28);
+  background: rgba(9, 13, 19, 0.9);
+  transform: rotate(45deg);
+}
+
+.result-bubble strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--cyan);
+  font-size: 0.98rem;
+}
+
+.result-bubble p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.fail-bubble {
+  border-color: rgba(255, 209, 102, 0.3);
+}
+
+.fail-bubble strong {
+  color: var(--amber);
+}
+
+.success-overlay {
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.game-complete-overlay {
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(3, 8, 13, 0.42);
+  pointer-events: auto;
+}
+
+.success-card {
+  position: relative;
+  z-index: 2;
+  width: min(430px, calc(100% - 44px));
+  padding: 18px 20px;
+  border: 1px solid rgba(125, 255, 186, 0.38);
+  border-radius: 8px;
+  background: rgba(3, 22, 17, 0.9);
+  box-shadow: 0 0 36px rgba(125, 255, 186, 0.28);
+  text-align: center;
+  animation: successPop 260ms ease-out;
+}
+
+.success-card strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--green);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.success-card p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.complete-card {
+  position: relative;
+  z-index: 3;
+  width: min(680px, calc(100% - 44px));
+  padding: 26px 28px;
+  border: 1px solid rgba(125, 255, 186, 0.55);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(84, 220, 255, 0.12), rgba(125, 255, 186, 0.16)),
+    rgba(3, 22, 17, 0.94);
+  box-shadow: 0 0 52px rgba(125, 255, 186, 0.34), 0 0 100px rgba(84, 220, 255, 0.16);
+  text-align: center;
+  animation: completePop 360ms ease-out;
+}
+
+.complete-card strong {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--green);
+  font-size: clamp(1.85rem, 4.2vw, 3.25rem);
+  line-height: 1.04;
+  overflow-wrap: anywhere;
+  text-transform: uppercase;
+}
+
+.complete-card p {
+  margin: 0 auto 18px;
+  max-width: 440px;
+  color: var(--text);
+  font-size: 1.12rem;
+  line-height: 1.45;
+}
+
+.complete-card button {
+  min-width: 170px;
+  background: var(--green);
+}
+
+.confetti,
+.mega-confetti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.confetti-piece,
+.mega-confetti-piece {
+  position: absolute;
+  top: -18px;
+  width: 9px;
+  height: 14px;
+  border-radius: 2px;
+  opacity: 0.95;
+  animation: confettiFall 1050ms ease-in forwards;
+}
+
+.mega-confetti-piece {
+  width: 11px;
+  height: 18px;
+  animation: megaConfettiFall 1900ms ease-in forwards;
+}
+
+.concept-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 0 0 10px;
+}
+
+.concept-card {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 10px;
+  min-height: 72px;
+  padding: 10px;
+  border: 1px solid rgba(180, 226, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(16, 20, 28, 0.72);
+  opacity: 0.55;
+}
+
+.concept-card.active {
+  border-color: rgba(84, 220, 255, 0.38);
+  opacity: 1;
+}
+
+.concept-card span {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(84, 220, 255, 0.14);
+  color: var(--cyan);
+  font-weight: 900;
+}
+
+.concept-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+
+.concept-card strong {
+  color: var(--text);
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(0.94);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 0.72;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes tunnel {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  46% {
+    transform: translate(220px, -4px) scale(0.62);
+    opacity: 0.22;
+  }
+  68% {
+    transform: translate(330px, -2px) scale(0.52);
+    opacity: 0.12;
+  }
+  100% {
+    transform: translate(485px, 8px) scale(0.38);
+    opacity: 0;
+  }
+}
+
+@keyframes fail {
+  0% {
+    transform: translate(0, 0);
+  }
+  42% {
+    transform: translate(220px, 0) scale(0.65);
+    opacity: 0.18;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes leak {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(315px, -132px) scale(0.22);
+    opacity: 0;
+  }
+}
+
+@keyframes bubbleIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes successPop {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes completePop {
+  from {
+    opacity: 0;
+    transform: scale(0.78) rotate(-1deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(620px) rotate(500deg);
+  }
+}
+
+@keyframes megaConfettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(720px) rotate(760deg);
+  }
+}
+
+@media (min-width: 921px) and (max-height: 780px) {
+  .game-shell {
+    width: min(1200px, calc(100vw - 24px));
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .story-panel {
+    grid-template-columns: 132px 1fr;
+    padding: 9px 12px;
+  }
+
+  .story-panel p {
+    font-size: 0.9rem;
+    line-height: 1.28;
+  }
+
+  .mission-panel {
+    padding: 12px;
+  }
+
+  .objective-box {
+    padding: 9px 10px;
+  }
+
+  .objective-box p {
+    font-size: 0.88rem;
+    line-height: 1.3;
+  }
+
+  .cell-stage {
+    min-height: 392px;
+  }
+
+  .concept-card {
+    min-height: 62px;
+    padding: 8px 10px;
+  }
+
+  .concept-card p {
+    font-size: 0.82rem;
+    line-height: 1.24;
+  }
+
+  .complete-card {
+    width: min(620px, calc(100% - 36px));
+    padding: 22px 24px;
+  }
+
+  .complete-card strong {
+    font-size: clamp(1.75rem, 3.8vw, 2.75rem);
+  }
+}
+
+@media (max-width: 920px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-panel {
+    order: 2;
+  }
+
+  .cell-stage {
+    min-height: 480px;
+  }
+
+  .concept-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .story-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .electron-zone {
+    left: 2%;
+  }
+
+  .trap-zone {
+    right: 2%;
+  }
+}
+
+@media (max-width: 620px) {
+  .game-shell {
+    width: min(100% - 20px, 1180px);
+    padding-top: 18px;
+  }
+
+  .topbar {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .cell-stage {
+    min-height: 420px;
+  }
+
+  .electron-cloud {
+    width: 74px;
+    height: 74px;
+  }
+
+  .electron-zone {
+    top: 45%;
+    width: 120px;
+  }
+
+  .trap-zone {
+    width: 142px;
+  }
+
+  .trap-well {
+    width: 126px;
+    height: 98px;
+  }
+
+  .barrier {
+    left: 43%;
+    width: 72px;
+    height: 62%;
+  }
+
+  .barrier-core {
+    width: 34px;
+  }
+
+  .barrier p {
+    bottom: -62px;
+    width: 116px;
+    font-size: 0.72rem;
+  }
+
+  .result-bubble {
+    left: 4%;
+    top: 22%;
+    width: min(260px, 48%);
+  }
+
+  .complete-card {
+    width: calc(100% - 24px);
+    padding: 18px 16px;
+  }
+
+  .complete-card strong {
+    font-size: clamp(1.55rem, 10vw, 2.45rem);
+  }
+
+  .readouts {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
+  </head>
+  <body>
+    <div class="script-warning" id="scriptWarning">
+      This file is being previewed without JavaScript, so the game controls cannot run. On iPad, open it in Safari or Chrome instead of an attachment or Files preview.
+    </div>
+    <main class="game-shell">
+      <section class="topbar" aria-label="Game status">
+        <div>
+          <p class="eyebrow">Inside your smartphone memory</p>
+          <h1>Tunnel Bit: 8 Nanometers</h1>
+        </div>
+        <div class="level-pill" id="levelPill">Level 1</div>
+      </section>
+
+      <section class="story-panel" aria-label="Story briefing">
+        <div class="story-speaker">Memory Core</div>
+        <div>
+          <p id="storyText">
+            Wake up, electron. You are inside a tiny memory cell. Your mission is to get through the dielectric barrier and land in the charge trap valley, where your stored charge can turn a memory bit from 0 to 1.
+          </p>
+        </div>
+      </section>
+
+      <section class="concept-strip" aria-label="Concept notes">
+        <article class="concept-card active" id="conceptOne">
+          <span>1</span>
+          <p><strong>You are not a marble.</strong> You are an electron, so the game shows you as a fuzzy probability cloud.</p>
+        </article>
+        <article class="concept-card" id="conceptTwo">
+          <span>2</span>
+          <p><strong>The barrier is an insulator.</strong> It blocks normal current, but quantum tunnelling gives you a chance to cross.</p>
+        </article>
+        <article class="concept-card" id="conceptThree">
+          <span>3</span>
+          <p><strong>The gate voltage is the push.</strong> A good push helps; too much can leak charge and make memory unstable.</p>
+        </article>
+      </section>
+
+      <section class="layout">
+        <aside class="mission-panel" aria-label="Mission">
+          <div class="mission-header">
+            <p class="eyebrow">Current mission</p>
+            <h2 id="levelTitle">The Wall That Should Stop You</h2>
+          </div>
+          <p id="levelBrief">
+            Store 4 electrons in the charge trap before the energy budget runs out.
+          </p>
+
+          <div class="objective-box">
+            <span>Your job</span>
+            <p id="objectiveText">Press launch and watch how your probability cloud interacts with the barrier.</p>
+          </div>
+
+          <div class="readouts" aria-label="Readouts">
+            <div class="readout">
+              <span>Trap charge</span>
+              <strong class="inline-value"><span id="storedCount">0</span>/<span id="targetCount">4</span></strong>
+            </div>
+            <div class="readout">
+              <span>Energy</span>
+              <strong id="energyText">12</strong>
+            </div>
+            <div class="readout">
+              <span>Stability</span>
+              <strong id="stabilityText">100%</strong>
+            </div>
+            <div class="readout">
+              <span>Tunnel chance</span>
+              <strong id="chanceText">42%</strong>
+            </div>
+          </div>
+
+          <div class="meter-stack">
+            <label>
+              <span>Energy budget</span>
+              <meter id="energyMeter" min="0" max="12" value="12"></meter>
+            </label>
+            <label>
+              <span>Cell stability</span>
+              <meter id="stabilityMeter" min="0" max="100" value="100"></meter>
+            </label>
+          </div>
+
+          <div class="controls">
+            <label class="slider-label" for="voltageSlider">
+              <span>Gate voltage</span>
+              <strong id="voltageValue">4.2 V</strong>
+            </label>
+            <input id="voltageSlider" type="range" min="2.0" max="7.2" step="0.1" value="4.2" disabled>
+            <div class="voltage-band" id="voltageBand">Guided safe field</div>
+            <button id="launchButton" type="button" disabled>Launch Electron</button>
+            <button id="nextButton" type="button" hidden>Continue</button>
+            <button id="resetButton" type="button">Reset Level</button>
+          </div>
+        </aside>
+
+        <section class="cell-stage" aria-label="Quantum memory cell simulation">
+          <div class="chip-grid"></div>
+          <div class="field-lines" id="fieldLines"></div>
+          <div class="electron-zone">
+            <div class="electron-cloud idle" id="electronCloud">
+              <span></span>
+            </div>
+            <p>you: an electron cloud</p>
+          </div>
+          <div class="result-bubble fail-bubble" id="failBubble" hidden>
+            <strong id="failTitle">No tunnel this time</strong>
+            <p id="failReason">Your probability cloud did not reach far enough through the barrier.</p>
+          </div>
+          <div class="barrier" id="barrier">
+            <div class="barrier-core"></div>
+            <p>dielectric barrier<br><strong>8 nm</strong></p>
+          </div>
+          <div class="trap-zone" id="trapZone">
+            <div class="trap-well">
+              <div class="stored-orbits" id="storedOrbits"></div>
+            </div>
+            <p>charge trap valley</p>
+          </div>
+          <div class="bit-display" id="bitDisplay">bit: 0</div>
+          <div class="success-overlay" id="successOverlay" hidden>
+            <div class="confetti" id="confettiLayer"></div>
+            <div class="success-card">
+              <strong>Tunnel event</strong>
+              <p>Tunnel event: you appeared beyond the 8 nm barrier and fell into the charge trap.</p>
+            </div>
+          </div>
+          <div class="game-complete-overlay" id="gameCompleteOverlay" hidden>
+            <div class="mega-confetti" id="megaConfettiLayer"></div>
+            <div class="complete-card">
+              <strong>Congratulations!!!</strong>
+              <p>You have completed the game! If you want to play again, press the restart button below.</p>
+              <button id="playAgainButton" type="button">Restart</button>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script>
+const levels = [
+  {
+    id: 1,
+    title: "Wake Up, Electron",
+    brief: "You are an electron inside a phone memory cell. Reach the charge trap by tunnelling through the 8 nm dielectric barrier.",
+    story: "Wake up, electron. Ahead of you is a dielectric barrier: an ultra-thin insulating wall. Behind it is the charge trap valley. If you land there, your stored charge helps the phone remember a 1.",
+    objective: "Launch yourself at the barrier. The first try shows what classical physics expects: the wall should stop you.",
+    target: 4,
+    energy: 12,
+    stability: 100,
+    voltage: 4.2,
+    lockedVoltage: true,
+    baseChance: 0.42,
+  },
+  {
+    id: 2,
+    title: "The Gate Wakes Up",
+    brief: "Now control the gate voltage. Tune the electric push so tunnelling is likely, but keep the memory cell stable.",
+    story: "The gate above the memory cell can push on you with voltage. A stronger push can help your probability cloud reach the trap, but too much push can cause leakage.",
+    objective: "Move the gate voltage slider, then launch. Aim for the sweet spot: enough push to tunnel, not so much that charge leaks away.",
+    target: 5,
+    energy: 14,
+    stability: 100,
+    voltage: 4.6,
+    lockedVoltage: false,
+  },
+];
+
+const state = {
+  levelIndex: 0,
+  stored: 0,
+  energy: levels[0].energy,
+  stability: levels[0].stability,
+  attempts: 0,
+  animating: false,
+  completed: false,
+  narration: levels[0].story,
+};
+
+const els = {
+  scriptWarning: document.querySelector("#scriptWarning"),
+  levelPill: document.querySelector("#levelPill"),
+  levelTitle: document.querySelector("#levelTitle"),
+  levelBrief: document.querySelector("#levelBrief"),
+  storyText: document.querySelector("#storyText"),
+  objectiveText: document.querySelector("#objectiveText"),
+  storedCount: document.querySelector("#storedCount"),
+  targetCount: document.querySelector("#targetCount"),
+  energyText: document.querySelector("#energyText"),
+  stabilityText: document.querySelector("#stabilityText"),
+  chanceText: document.querySelector("#chanceText"),
+  energyMeter: document.querySelector("#energyMeter"),
+  stabilityMeter: document.querySelector("#stabilityMeter"),
+  voltageSlider: document.querySelector("#voltageSlider"),
+  voltageValue: document.querySelector("#voltageValue"),
+  voltageBand: document.querySelector("#voltageBand"),
+  launchButton: document.querySelector("#launchButton"),
+  nextButton: document.querySelector("#nextButton"),
+  resetButton: document.querySelector("#resetButton"),
+  electronCloud: document.querySelector("#electronCloud"),
+  fieldLines: document.querySelector("#fieldLines"),
+  failBubble: document.querySelector("#failBubble"),
+  failTitle: document.querySelector("#failTitle"),
+  failReason: document.querySelector("#failReason"),
+  successOverlay: document.querySelector("#successOverlay"),
+  confettiLayer: document.querySelector("#confettiLayer"),
+  gameCompleteOverlay: document.querySelector("#gameCompleteOverlay"),
+  megaConfettiLayer: document.querySelector("#megaConfettiLayer"),
+  playAgainButton: document.querySelector("#playAgainButton"),
+  storedOrbits: document.querySelector("#storedOrbits"),
+  bitDisplay: document.querySelector("#bitDisplay"),
+  concepts: [
+    document.querySelector("#conceptOne"),
+    document.querySelector("#conceptTwo"),
+    document.querySelector("#conceptThree"),
+  ],
+};
+
+function currentLevel() {
+  return levels[state.levelIndex];
+}
+
+function voltage() {
+  return Number(els.voltageSlider.value);
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function chanceForLevel() {
+  const level = currentLevel();
+  if (level.id === 1) {
+    return level.baseChance;
+  }
+
+  const v = voltage();
+  const sweetSpot = 4.9;
+  const distance = Math.abs(v - sweetSpot);
+  const shaped = 0.72 - distance * 0.19;
+  const stabilityPenalty = (100 - state.stability) * 0.002;
+  return clamp(shaped - stabilityPenalty, 0.08, 0.76);
+}
+
+function voltageLabel() {
+  if (currentLevel().lockedVoltage) {
+    return "Tutorial mode: the chip holds the gate voltage steady";
+  }
+
+  const v = voltage();
+  if (v < 3.8) return "Too low: weak push, low tunnel chance";
+  if (v <= 5.8) return "Sweet spot: controlled push, useful tunnelling";
+  return "Too high: charge may leak and damage stability";
+}
+
+function guidedOutcome(chance) {
+  const level = currentLevel();
+  const roll = Math.random();
+
+  if (level.id === 1) {
+    if (state.attempts === 1) return false;
+    if (state.attempts === 2) return true;
+    if (state.energy <= 3 && state.stored < level.target - 1) return true;
+    return roll < chance + (state.attempts > 4 ? 0.12 : 0);
+  }
+
+  const v = voltage();
+  if (v > 6.1 && roll < 0.32) return "leak";
+  if (state.attempts < 2 && v >= 4.2 && v <= 5.5) return true;
+  if (state.energy <= 3 && state.stored < level.target - 1 && v >= 4.0 && v <= 5.8) return true;
+  return roll < chance;
+}
+
+function updateConcepts() {
+  els.concepts.forEach((card, index) => {
+    const shouldActivate =
+      index === 0 ||
+      state.attempts >= 1 && index === 1 ||
+      currentLevel().id === 2 && index === 2;
+    card.classList.toggle("active", shouldActivate);
+  });
+}
+
+function renderStoredDots() {
+  els.storedOrbits.innerHTML = "";
+  for (let i = 0; i < state.stored; i += 1) {
+    const dot = document.createElement("span");
+    dot.className = "stored-dot";
+    els.storedOrbits.append(dot);
+  }
+}
+
+function render() {
+  const level = currentLevel();
+  const chance = chanceForLevel();
+
+  els.levelPill.textContent = `Level ${level.id}`;
+  els.levelTitle.textContent = level.title;
+  els.levelBrief.textContent = level.brief;
+  els.storyText.textContent = state.narration || level.story;
+  els.objectiveText.textContent = level.objective;
+  els.targetCount.textContent = level.target;
+  els.storedCount.textContent = state.stored;
+  els.energyText.textContent = state.energy;
+  els.stabilityText.textContent = `${state.stability}%`;
+  els.chanceText.textContent = `${Math.round(chance * 100)}%`;
+  els.energyMeter.max = level.energy;
+  els.energyMeter.value = state.energy;
+  els.stabilityMeter.value = state.stability;
+  els.voltageSlider.disabled = level.lockedVoltage || state.animating || state.completed;
+  els.voltageSlider.value = level.lockedVoltage ? level.voltage : els.voltageSlider.value;
+  els.voltageValue.textContent = `${Number(els.voltageSlider.value).toFixed(1)} V`;
+  els.voltageBand.textContent = voltageLabel();
+  els.fieldLines.style.opacity = String(clamp(voltage() / 7.2, 0.28, 0.9));
+  els.bitDisplay.textContent = `bit: ${state.stored > 0 ? 1 : 0}`;
+  els.launchButton.disabled = state.animating || state.completed || state.energy <= 0;
+  els.nextButton.hidden = !state.completed || state.levelIndex >= levels.length - 1;
+  renderStoredDots();
+  updateConcepts();
+}
+
+function markScriptReady() {
+  els.scriptWarning.hidden = true;
+}
+
+function setToast(message) {
+  state.narration = message;
+  els.storyText.textContent = message;
+}
+
+function hideResultOverlays() {
+  els.failBubble.hidden = true;
+  els.successOverlay.hidden = true;
+  els.gameCompleteOverlay.hidden = true;
+  els.confettiLayer.innerHTML = "";
+  els.megaConfettiLayer.innerHTML = "";
+}
+
+function showFailureBubble(title, reason) {
+  els.failTitle.textContent = title;
+  els.failReason.textContent = reason;
+  els.failBubble.hidden = false;
+  els.successOverlay.hidden = true;
+}
+
+function showSuccessOverlay() {
+  els.failBubble.hidden = true;
+  els.successOverlay.hidden = false;
+  els.gameCompleteOverlay.hidden = true;
+  els.confettiLayer.innerHTML = "";
+
+  const colors = ["#54dcff", "#7dffba", "#ffd166", "#b892ff", "#ff667d"];
+  for (let i = 0; i < 42; i += 1) {
+    const piece = document.createElement("span");
+    piece.className = "confetti-piece";
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.background = colors[i % colors.length];
+    piece.style.animationDelay = `${Math.random() * 0.28}s`;
+    piece.style.transform = `rotate(${Math.random() * 180}deg)`;
+    els.confettiLayer.append(piece);
+  }
+}
+
+function showerConfetti(layer, amount, className) {
+  layer.innerHTML = "";
+  const colors = ["#54dcff", "#7dffba", "#ffd166", "#b892ff", "#ff667d", "#ffffff"];
+  for (let i = 0; i < amount; i += 1) {
+    const piece = document.createElement("span");
+    piece.className = className;
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.background = colors[i % colors.length];
+    piece.style.animationDelay = `${Math.random() * 0.65}s`;
+    piece.style.transform = `rotate(${Math.random() * 220}deg)`;
+    layer.append(piece);
+  }
+}
+
+function showGameCompleteOverlay() {
+  els.failBubble.hidden = true;
+  els.successOverlay.hidden = true;
+  els.gameCompleteOverlay.hidden = false;
+  showerConfetti(els.megaConfettiLayer, 150, "mega-confetti-piece");
+}
+
+function failureReason() {
+  if (currentLevel().id === 1) {
+    return "Classical physics says the insulating barrier should stop you. Quantum tunnelling is possible, but not guaranteed.";
+  }
+
+  const v = voltage();
+  if (v < 3.8) {
+    return "The gate voltage was too low, so your probability cloud did not reach far enough through the barrier.";
+  }
+  if (v > 5.8) {
+    return "The voltage was risky. Some charge was disturbed instead of landing neatly in the trap.";
+  }
+  return "The voltage was reasonable, but tunnelling is still based on probability. This attempt simply did not land.";
+}
+
+function resetCloud(className) {
+  els.electronCloud.className = `electron-cloud ${className}`;
+}
+
+function finishLevel() {
+  state.completed = true;
+  els.launchButton.disabled = true;
+  if (state.levelIndex === 0) {
+    setToast("You did it. The memory cell is no longer empty: trapped charge changed the bit from 0 to 1. Next, you will learn how engineers control this with gate voltage.");
+  } else {
+    showGameCompleteOverlay();
+    setToast("Now the big idea is visible: microchips use barriers, voltage, and traps to turn strange quantum probability into stored information.");
+  }
+}
+
+function checkEndState() {
+  const level = currentLevel();
+  if (state.stored >= level.target) {
+    finishLevel();
+    return;
+  }
+
+  if (state.energy <= 0 || state.stability <= 0) {
+    state.completed = true;
+    showFailureBubble("Cell conditions failed", "The memory cell ran out of energy or stability. Reset and try using enough push, but not too much.");
+    setToast("The cell ran out of usable conditions. Think like a chip engineer: enough push, but not too much.");
+  }
+}
+
+function applyAttemptCost(outcome) {
+  state.energy = Math.max(0, state.energy - 1);
+  if (outcome === "leak") {
+    state.stability = Math.max(0, state.stability - 24);
+    state.energy = Math.max(0, state.energy - 1);
+  } else if (currentLevel().id === 2 && voltage() > 5.8) {
+    state.stability = Math.max(0, state.stability - 9);
+  }
+}
+
+function launchElectron() {
+  if (state.animating || state.completed) return;
+
+  hideResultOverlays();
+  state.animating = true;
+  state.attempts += 1;
+  const chance = chanceForLevel();
+  const outcome = guidedOutcome(chance);
+
+  applyAttemptCost(outcome);
+
+  if (outcome === "leak") {
+    resetCloud("leak");
+    showFailureBubble("Leakage", "Too much voltage pushed charge the wrong way, so the memory cell lost stability.");
+    setToast("That was too much push. Real memory cells need control because excessive voltage can make charge leak where it should not go.");
+  } else if (outcome) {
+    resetCloud("tunnel");
+    state.stored += 1;
+    showSuccessOverlay();
+    setToast("Quantum tunnelling does not mean smashing through the wall. Your probability cloud reached through the barrier, and this time you were found on the other side.");
+  } else {
+    resetCloud("fail");
+    showFailureBubble("No tunnel this time", failureReason());
+    setToast(currentLevel().id === 1
+      ? "Classically, this is exactly what should happen: the barrier stops you. Quantum physics adds the surprising part: failure is not the only possible result."
+      : "Tunnelling is a chance, not a guarantee. Adjusting voltage changes the odds, so your choices still matter.");
+  }
+
+  render();
+
+  window.setTimeout(() => {
+    state.animating = false;
+    resetCloud("idle");
+    checkEndState();
+    render();
+  }, 1450);
+}
+
+function loadLevel(index) {
+  const level = levels[index];
+  state.levelIndex = index;
+  state.stored = 0;
+  state.energy = level.energy;
+  state.stability = level.stability;
+  state.attempts = 0;
+  state.animating = false;
+  state.completed = false;
+  state.narration = level.story;
+  els.voltageSlider.value = level.voltage;
+  resetCloud("idle");
+  hideResultOverlays();
+  setToast(level.id === 1
+    ? "You are the electron. Launch once to meet the barrier."
+    : "Tune the gate voltage. Low voltage feels safe but weak; high voltage is powerful but risky.");
+  render();
+}
+
+els.launchButton.addEventListener("click", launchElectron);
+els.resetButton.addEventListener("click", () => loadLevel(state.levelIndex));
+els.nextButton.addEventListener("click", () => loadLevel(state.levelIndex + 1));
+els.playAgainButton.addEventListener("click", () => loadLevel(0));
+els.voltageSlider.addEventListener("input", render);
+
+markScriptReady();
+loadLevel(0);
+
+</script>
+  </body>
+</html>
+
